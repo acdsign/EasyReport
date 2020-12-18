@@ -255,7 +255,7 @@
     <select id="selectByPager" resultMap="ConfMap" parameterType="java.util.Map">
         SELECT
         <include refid="Base_Column_List"/>,
-        (SELECT IF (count(*) > 0, 1, 0) FROM ezrpt_meta_conf t1 WHERE t1.parent_id = t.id) AS has_child
+        (SELECT case (count(*) > 0) when true then 1 else 0 end FROM ezrpt_meta_conf t1 WHERE t1.parent_id = t.id) AS has_child
         FROM
         ezrpt_meta_conf t
         <if test="example != null">
@@ -270,7 +270,7 @@
         SELECT
         t.*,
         (SELECT
-        IF (count(*) > 0, 1, 0)
+        case (count(*) > 0) when true then 1 else 0 end
         FROM
         ezrpt_meta_conf t1
         WHERE
